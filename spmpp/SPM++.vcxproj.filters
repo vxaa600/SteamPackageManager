@@ -18,9 +18,6 @@
     <ClCompile Include="steam.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pkgreader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="steam.h">
