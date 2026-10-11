@@ -4,4 +4,4 @@ steam package manger C++ port
 - ~~port unpack function~~
 - port pack function
 - better readme
-- pkgreader and pkgwriter
+- ~~pkgreader~~ and pkgwriter
