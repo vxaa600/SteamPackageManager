@@ -53,7 +53,7 @@ void package_unpack(const std::string& infilename, const std::string& outpath)
     }
 
     std::ifstream infile(infilename, std::ios::binary);
-    std::vector<uint8_t> package{ (std::istreambuf_iterator<char>(infile)), std::istreambuf_iterator<char>() };
+    std::vector<uint8_t> package{ (std::istreambuf_iterator<char>(infile)), std::istreambuf_iterator<char>() }; // uint8_t vector equivalent to b""
     infile.close();
 
     std::vector<uint8_t> header{ package.end() - 9, package.end() };
@@ -100,6 +100,35 @@ void package_unpack(const std::string& infilename, const std::string& outpath)
         outfile.write(reinterpret_cast<const char*>(file.data()), file.size());
         outfile.close();
         std::cout << outfullfilename << " written\n";
-    }
+    }   
+}
 
+void package_pack(const std::string& directory, const std::string& outfilename)
+{
+
+    std::vector<fs::path> filenames{};
+    std::cout << directory << '\n';
+    for (const auto& entry : fs::recursive_directory_iterator(directory))// : means in
+    {
+        if (entry.is_regular_file())
+        {
+            fs::path filename{ entry.path() };
+            filenames.push_back(filename);
+        }
+    }
+    for (const auto& filename : filenames) {
+        std::cout << filename << '\n';
+    }
+    size_t outfileoffset{};
+    std::vector<uint8_t> datasection; // uint8_t vector equivalent to b""
+    std::vector<uint8_t> indexsection;
+    uint32_t numberoffiles{};
+    for (const auto& filename : filenames) {
+        std::ifstream infile(filename, std::ios::binary);
+        std::vector<uint8_t> filedata{ (std::istreambuf_iterator<char>(infile)), std::istreambuf_iterator<char>() };
+        infile.close(); 
+
+        size_t index{};
+        size_t packedbytes{};
+    }
 }
