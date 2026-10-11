@@ -1,0 +1,61 @@
+import std.compat;
+import std;
+#include <zlib.h>
+#include <cstdint>
+
+namespace fs = std::filesystem;
+
+uint32_t read_le32(const std::vector<uint8_t>& buf, size_t offset) {
+    return static_cast<uint32_t>(buf[offset])
+        | (static_cast<uint32_t>(buf[offset + 1]) << 8)
+        | (static_cast<uint32_t>(buf[offset + 2]) << 16)
+        | (static_cast<uint32_t>(buf[offset + 3]) << 24);
+}
+
+void package_pack(std::string& infilename, std::string& outpath)
+{
+    if (fs::is_directory(outpath)) {
+        fs::create_directory(outpath);
+    }
+
+    std::ifstream infile(infilename, std::ios::binary);
+    std::vector<uint8_t> package{ (std::istreambuf_iterator<char>(infile)), std::istreambuf_iterator<char>() };
+    infile.close();
+
+    std::vector<uint8_t> header{ package.end() - 9, package.end() };
+
+    size_t header_start{ package.size() - 9 };
+
+    uint8_t pkg_ver{ package[header_start] };
+    uint32_t compress_level{ read_le32(package, header_start + 1) };
+    uint32_t numfiles{ read_le32(package, header_start + 5) };
+
+    size_t index{ package.size() - (9 + 16) };
+
+    for (uint32_t i{}; i < numfiles; i++) {
+        uint32_t unpacked_size{read_le32(package, index)};
+        uint32_t packed_size{read_le32(package, index + 4)};
+        uint32_t file_start{ read_le32(package, index + 8) };
+        uint32_t filename_len{ read_le32(package, index + 12) };
+
+        std::string filename(package.begin() + (index - filename_len), package.begin() + (index - 1)); // like filename = package[index - filename_len:index - 1]
+        fs::path filepath(filename);
+        std::string dir{ filepath.parent_path().string()};
+        std::string basename{ filepath.filename().string() };
+        
+        index -= (filename_len + 16);
+
+        std::vector<uint8_t> file{};
+
+        while (packed_size > 0) {
+            uint32_t compressed_len{ read_le32(package, (file_start) )};
+
+        }
+
+    }
+
+}
+int main() 
+{
+    return 0;
+}
