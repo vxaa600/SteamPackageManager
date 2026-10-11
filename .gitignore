@@ -9,3 +9,6 @@ Release/
 *.exe
 vcpkg_installed/
 
+*.vcxproj.user
+ 
+ 
