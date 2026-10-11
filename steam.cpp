@@ -42,8 +42,8 @@ std::vector<uint8_t> zlib_decompress(const std::vector<uint8_t>& compressed)
 
 void package_unpack(std::string& infilename, std::string& outpath)
 {
-    if (!fs::is_directory(outpath)) {
-        fs::create_directory(outpath);
+    if (!fs::exists(outpath)) {
+        fs::create_directories(outpath);
     }
 
     std::ifstream infile(infilename, std::ios::binary);
@@ -79,17 +79,21 @@ void package_unpack(std::string& infilename, std::string& outpath)
             size_t compressed_start{ file_start + 4 };
             size_t compressed_end{ compressed_start + compressed_len };
             std::vector<uint8_t> compressed_data(package.begin() + compressed_start, package.begin() + compressed_end);
-            std::vector<uint8_t> decompressed_data = zlib_decompress(compressed_data);
+            std::vector<uint8_t> decompressed_data{ zlib_decompress(compressed_data) };
             file.insert(file.end(), decompressed_data.begin(), decompressed_data.end());
             file_start = compressed_end;
             packed_size -= compressed_len;
 
         }
-
+        fs::path outsubpath{ fs::path(outpath) / dir };
+        if (!fs::exists(outsubpath)) {
+            fs::create_directories(outsubpath);
+        }
+        fs::path outfullfilename{ fs::path(outpath) / filename };
+        std::ofstream outfile(outfullfilename, std::ios::binary);
+        outfile.write(reinterpret_cast<const char*>(file.data()), file.size());
+        outfile.close();
+        std::cout << outfullfilename << " written\n";
     }
 
-}
-int main() 
-{
-    return 0;
 }

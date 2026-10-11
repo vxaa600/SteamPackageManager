@@ -150,6 +150,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="pkgreader.cpp" />
     <ClCompile Include="steam.cpp" />
   </ItemGroup>
   <ItemGroup>
