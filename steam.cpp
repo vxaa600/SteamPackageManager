@@ -5,11 +5,39 @@ import std;
 
 namespace fs = std::filesystem;
 
+/* read little endian */
 uint32_t read_le32(const std::vector<uint8_t>& buf, size_t offset) {
     return static_cast<uint32_t>(buf[offset])
         | (static_cast<uint32_t>(buf[offset + 1]) << 8)
         | (static_cast<uint32_t>(buf[offset + 2]) << 16)
         | (static_cast<uint32_t>(buf[offset + 3]) << 24);
+}
+
+std::vector<uint8_t> zlib_decompress(const std::vector<uint8_t>& compressed)
+{
+    size_t buffer_size{ 0x8000 };
+    std::vector<uint8_t> decompressed(buffer_size);
+
+    while (true) {
+        uLongf dest_len{ static_cast<uLongf>(buffer_size) };
+
+        int result = uncompress(
+            decompressed.data(), &dest_len,
+            compressed.data(), static_cast<uLong>(compressed.size())
+        );
+
+        if (result == Z_OK) {
+            decompressed.resize(dest_len);
+            return decompressed;
+        }
+        else if (result == Z_BUF_ERROR) {
+            buffer_size *= 2;
+            decompressed.resize(buffer_size);
+        }
+        else {
+            throw std::runtime_error("zlib decompression failed");
+        }
+    }
 }
 
 void package_pack(std::string& infilename, std::string& outpath)
@@ -25,7 +53,6 @@ void package_pack(std::string& infilename, std::string& outpath)
     std::vector<uint8_t> header{ package.end() - 9, package.end() };
 
     size_t header_start{ package.size() - 9 };
-
     uint8_t pkg_ver{ package[header_start] };
     uint32_t compress_level{ read_le32(package, header_start + 1) };
     uint32_t numfiles{ read_le32(package, header_start + 5) };
@@ -49,6 +76,10 @@ void package_pack(std::string& infilename, std::string& outpath)
 
         while (packed_size > 0) {
             uint32_t compressed_len{ read_le32(package, (file_start) )};
+            size_t compressed_start{ file_start + 4 };
+            size_t compressed_end{ compressed_start + compressed_len };
+            std::vector<uint8_t> compressed_data(package.begin() + compressed_start, package.begin() + compressed_end);
+            std::vector<uint8_t> decompressed_chunk{};
 
         }
 
