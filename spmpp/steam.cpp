@@ -59,14 +59,11 @@ void package_unpack(const std::string& infilename, const std::string& outpath)
     std::vector<uint8_t> header{ package.end() - 9, package.end() };
 
     size_t header_start{ package.size() - 9 };
-    uint8_t pkg_ver{ package[header_start] };
-    uint32_t compress_level{ read_le32(package, header_start + 1) };
     uint32_t numfiles{ read_le32(package, header_start + 5) };
 
     size_t index{ package.size() - (9 + 16) };
 
     for (uint32_t i{}; i < numfiles; i++) {
-        uint32_t unpacked_size{read_le32(package, index)};
         uint32_t packed_size{read_le32(package, index + 4)};
         uint32_t file_start{ read_le32(package, index + 8) };
         uint32_t filename_len{ read_le32(package, index + 12) };
@@ -87,7 +84,7 @@ void package_unpack(const std::string& infilename, const std::string& outpath)
             std::vector<uint8_t> compressed_data(package.begin() + compressed_start, package.begin() + compressed_end);
             std::vector<uint8_t> decompressed_data{ zlib_decompress(compressed_data) };
             file.insert(file.end(), decompressed_data.begin(), decompressed_data.end());
-            file_start = compressed_end;
+            file_start = static_cast<uint32_t>(compressed_end);;
             packed_size -= compressed_len;
 
         }
