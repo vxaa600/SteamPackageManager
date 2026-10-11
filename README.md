@@ -5,4 +5,4 @@ a fast steam package manger written in C++
 - port pack function **IN PROGRESS**
 - better readme
 - ~~spmpp main app~~
-- release files
+- downloadable releases
