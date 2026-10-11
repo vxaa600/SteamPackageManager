@@ -159,7 +159,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp23</LanguageStandard>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
-      <AdditionalIncludeDirectories>C:\Users\user\Documents\SPM++\libsteam;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)steamlib</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <BuildStlModules>false</BuildStlModules>
     </ClCompile>
@@ -175,13 +175,11 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-  </ItemGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\spmpp\SPM++.vcxproj">
+    <ProjectReference Include="..\steamlib\steamlib.vcxproj">
       <Project>{147f45b6-dfcd-4226-ae43-5581143f5353}</Project>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
 </Project>
