@@ -1,7 +1,7 @@
 # spmpp
-steam package manger C++ port
+steam package manger written in C++
 # to-do
 - ~~port unpack function~~
-- port pack function
+- port pack function **IN PROGRESS**
 - better readme
-- ~~pkgreader~~ and pkgwriter
+- ~~spmpp main app~~
