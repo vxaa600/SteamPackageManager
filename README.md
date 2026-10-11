@@ -1,5 +1,5 @@
 # spmpp
-steam package manger written in C++
+a fast steam package manger written in C++
 # to-do
 - ~~port unpack function~~
 - port pack function **IN PROGRESS**
