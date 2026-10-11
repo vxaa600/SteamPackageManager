@@ -4,6 +4,5 @@
     <Platform Name="x86" />
   </Configurations>
   <Project Path="PkgReader/PkgReader.vcxproj" Id="8a1e30e7-a941-48a5-84a3-3d8d1771200f" />
-  <Project Path="PkgWriter/PkgWriter.vcxproj" Id="322ead46-749c-4d19-9b2b-5a71f171663b" />
   <Project Path="spmpp/SPM++.vcxproj" Id="147f45b6-dfcd-4226-ae43-5581143f5353" />
 </Solution>
