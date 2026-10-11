@@ -9,6 +9,7 @@ namespace fs = std::filesystem;
 int wmain(int argc, wchar_t* argv[])
 {
 	std::println("steam package manager v2");
+	std::println("made by vxaa");
 	fs::path inputfile;
 	fs::path outputfile;
 
