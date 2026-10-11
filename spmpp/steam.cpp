@@ -1,7 +1,13 @@
-import std.compat;
-import std;
-#include <zlib.h>
+#include <iostream>
+#include <fstream>
+#include <filesystem>
+#include <string>
+#include <vector>
 #include <cstdint>
+#include <cstddef>
+#include <iterator>
+#include <stdexcept>
+#include <zlib.h>
 
 namespace fs = std::filesystem;
 
@@ -40,7 +46,7 @@ std::vector<uint8_t> zlib_decompress(const std::vector<uint8_t>& compressed)
     }
 }
 
-void package_unpack(std::string& infilename, std::string& outpath)
+void package_unpack(const std::string& infilename, const std::string& outpath)
 {
     if (!fs::exists(outpath)) {
         fs::create_directories(outpath);

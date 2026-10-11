@@ -1,8 +1,0 @@
-{
-  "name": "spm-pp",
-  "version": "0.1",
-  "dependencies": [
-    "zlib"
-  ],
-  "builtin-baseline": "e456309491fd875487bf02b8a0dca76c1b1b00cc"
-}
