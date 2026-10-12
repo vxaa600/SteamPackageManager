@@ -2,7 +2,6 @@
 #include <filesystem>
 #include <string>
 #include <print>
-#include <getopt.h>
 #include <steam.h>
 namespace fs = std::filesystem;
 
@@ -15,34 +14,56 @@ int wmain(int argc, wchar_t* argv[])
 
 	bool extract{ false };
 	bool pack{ false };
-	int c;
-	while ((c = getopt(argc, argv, L"epi:o:h")) != -1)
-	{
-		switch (c)
-		{
-		case 'e':
-			extract = true;
-			break;
+    for (int i = 1; i < argc; i++)
+    {
+        std::wstring arg{ argv[i] };
 
-		case 'p':
-			pack = true;
-			break;
-		case 'i':
-			inputfile = optarg;
-			break;
+        if (arg.size() != 2 || arg[0] != L'-')
+        {
+            std::println("invalid argument");
+            return 1;
+        }
 
-		case 'o':
-			outputfile = optarg;
-			break;
+        switch (arg[1])
+        {
+        case L'e':
+            extract = true;
+            break;
 
-		case 'h':
-			std::cout << "usage: spmpp.exe -e (extract) | -p (pack) -i file.pkg/inputdir -o outputdir/output.pkg\n";
-			return 0;
-		}
-	}
+        case L'p':
+            pack = true;
+            break;
+
+        case L'i':
+            if (i + 1 >= argc)
+            {
+                std::println("missing input");
+                return 1;
+            }
+            inputfile = argv[++i];
+            break;
+
+        case L'o':
+            if (i + 1 >= argc)
+            {
+                std::println("missing output");
+                return 1;
+            }
+            outputfile = argv[++i];
+            break;
+
+        case L'h':
+            std::println("usage: spmpp.exe -e | -p -i input -o output");
+            return 0;
+
+        default:
+            std::println("invalid argument");
+            return 1;
+        }
+    }
 	if (extract == pack || inputfile.empty() || outputfile.empty())
 	{
-		std::cout << "usage: spmpp.exe -e (extract) | -p (pack) -i file.pkg/inputdir -o outputdir/output.pkg\n";
+		std::cout << "usage: spmpp.exe -e | -p -i input -o output\n";
 		return 1;
 	}
 	if (pack && outputfile.extension() != ".pkg")
