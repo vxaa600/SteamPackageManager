@@ -7,7 +7,7 @@
 #include <cstddef>
 #include <iterator>
 #include <stdexcept>
-#include <zlib.h>
+#include <zlib-ng.h>
 
 namespace fs = std::filesystem;
 
@@ -31,9 +31,9 @@ std::vector<uint8_t> zlib_decompress(const std::vector<uint8_t>& compressed)
     std::vector<uint8_t> decompressed(buffer_size);
 
     while (true) {
-        uLongf dest_len{ static_cast<uLongf>(buffer_size) };
+        size_t dest_len{ buffer_size };
 
-        int result = uncompress(
+        int result = zng_uncompress(
             decompressed.data(), &dest_len,
             compressed.data(), static_cast<uLong>(compressed.size())
         );
@@ -55,10 +55,10 @@ std::vector<uint8_t> zlib_decompress(const std::vector<uint8_t>& compressed)
 /* compress function not mine :( */
 std::vector<uint8_t> zlib_compress(const std::vector<uint8_t>& input, int level = 9)
 {
-    uLongf bound = compressBound(static_cast<uLong>(input.size()));
+    size_t bound = zng_compressBound(static_cast<uLong>(input.size()));
     std::vector<uint8_t> compressed(bound);
-    uLongf dest_len = bound;
-    int result = compress2(
+    size_t dest_len = bound;
+    int result = zng_compress2(
         compressed.data(), &dest_len,
         input.data(), static_cast<uLong>(input.size()),
         level
