@@ -16,7 +16,7 @@ int wmain(int argc, wchar_t* argv[])
 	bool extract{ false };
 	bool write{ false };
 	int c;
-    while((c=getopt(argc,argv,L"ew:i:o:h")) != -1)
+	while ((c = getopt(argc, argv, L"ewi:o:h")) != -1)
 	{
 		switch (c)
 		{
