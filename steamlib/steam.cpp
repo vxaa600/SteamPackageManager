@@ -77,7 +77,7 @@ void package_unpack(const std::string& infilename, const std::string& outpath)
     }
 
     std::ifstream infile(infilename, std::ios::binary);
-    std::vector<uint8_t> package{ (std::istreambuf_iterator<char>(infile)), std::istreambuf_iterator<char>() }; // uint8_t vector equivalent to b""
+    std::vector<uint8_t> package{ (std::istreambuf_iterator<char>(infile)), std::istreambuf_iterator<char>() };
     infile.close();
 
     std::vector<uint8_t> header{ package.end() - 9, package.end() };
@@ -92,7 +92,7 @@ void package_unpack(const std::string& infilename, const std::string& outpath)
         uint32_t file_start{ read_le32(package, index + 8) };
         uint32_t filename_len{ read_le32(package, index + 12) };
 
-        std::string filename(package.begin() + (index - filename_len), package.begin() + (index - 1)); // like filename = package[index - filename_len:index - 1]
+        std::string filename(package.begin() + (index - filename_len), package.begin() + (index - 1));
         fs::path filepath(filename);
         std::string dir{ filepath.parent_path().string()};
         std::string basename{ filepath.filename().string() };
@@ -129,7 +129,7 @@ void package_pack(const std::string& directory, const std::string& outfilename)
 
     std::vector<fs::path> filenames{};
     std::cout << directory << '\n';
-    for (const auto& entry : fs::recursive_directory_iterator(directory))// : means in
+    for (const auto& entry : fs::recursive_directory_iterator(directory))
     {
         if (entry.is_regular_file())
         {
@@ -141,7 +141,7 @@ void package_pack(const std::string& directory, const std::string& outfilename)
         std::cout << filename << '\n';
     }
     size_t outfileoffset{};
-    std::vector<uint8_t> datasection; // uint8_t vector equivalent to b""
+    std::vector<uint8_t> datasection; 
     std::vector<uint8_t> indexsection;
     uint32_t numberoffiles{};
     for (const auto& filename : filenames) {
