@@ -5,6 +5,7 @@ a fast steam package manager written in C++
 - pack .pkg files from directories
 - zlib-ng compression
 - x64 and x86 support
+# install
 download the latest [release](https://github.com/vxaa600/spmpp/releases), no install needed
 # usage
 extract a package \
