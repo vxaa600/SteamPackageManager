@@ -36,13 +36,23 @@ int wmain(int argc, wchar_t* argv[])
 			break;
 
 		case 'h':
-			std::println("usage: spmpp.exe -e|-w -i file.pkg -o outputdir");
+			std::cout << "usage: spmpp.exe -e|-w -i file.pkg -o outputdir\n";
 			return 0;
 		}
 	}
 	if (extract == write || inputfile.empty() || outputfile.empty())
 	{
-		std::println("usage: spmpp.exe -e|-w -i file.pkg -o outputdir");
+		std::cout << "usage: spmpp.exe -e|-w -i file.pkg -o outputdir\n";
+		return 1;
+	}
+	if (write && outputfile.extension() != ".pkg")
+	{
+		std::cout << "incorrect file type!\n";
+		return 1;
+	}
+	else if (extract && inputfile.extension() != ".pkg")
+	{
+		std::cout << "incorrect file type!";
 		return 1;
 	}
 	if (extract)
@@ -52,7 +62,7 @@ int wmain(int argc, wchar_t* argv[])
 	}
 	else if (write)
 	{
-		package_unpack(inputfile.string(), outputfile.string());
+		package_pack(inputfile.string(), outputfile.string());
 		std::println("Written to {}",outputfile.string());
 	}
 	
