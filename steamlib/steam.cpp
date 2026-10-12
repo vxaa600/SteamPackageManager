@@ -117,7 +117,7 @@ void package_pack(const std::string& directory, const std::string& outfilename)
     {
         if (entry.is_regular_file())
         {
-            fs::path filename{ entry.path() };
+            fs::path filename{ fs::relative(entry.path(), directory) };
             filenames.push_back(filename);
         }
     }
@@ -140,9 +140,28 @@ void package_pack(const std::string& directory, const std::string& outfilename)
             std::vector<uint8_t> chunk(filedata.begin() + i, filedata.begin() + std::min(i + 0x8000, filedata.size()));
             std::vector<uint8_t> packedchunk(zlib_compress(chunk, 9));
             size_t packedlen{ packedchunk.size() };
-            uint32_t datasection{};
-            datasection += readle_32()
-
+            write_le32(datasection, packedlen);
+            datasection.insert(datasection.end(), packedchunk.begin(), packedchunk.end());
+            packedbytes += packedlen;
         }
+        std::string filename_bytes = filename.string();
+        indexsection.insert(indexsection.end(), filename_bytes.begin(), filename_bytes.end());
+        indexsection.push_back(0);
+        write_le32(indexsection, static_cast<uint32_t>(filedata.size()));
+        write_le32(indexsection, static_cast<uint32_t>(packedbytes));
+        write_le32(indexsection, static_cast<uint32_t>(outfileoffset));
+        write_le32(indexsection, static_cast<uint32_t>(filename.string().size() + 1));
+        outfileoffset = datasection.size();
+        numberoffiles++;
+        std::cout << filename << '\n';
     }
+    std::vector<uint8_t> fulloutfile{ datasection };
+    fulloutfile.insert(fulloutfile.end(), indexsection.begin(), indexsection.end());
+    fulloutfile.push_back(0);
+    write_le32(fulloutfile, 9);
+    write_le32(fulloutfile, numberoffiles);
+
+    std::ofstream outfile(outfilename, std::ios::binary);
+    outfile.write(reinterpret_cast<const char*>(fulloutfile.data()), fulloutfile.size());
+    outfile.close();
 }
