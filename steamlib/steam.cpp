@@ -129,11 +129,10 @@ void package_pack(const std::string& directory, const std::string& outfilename)
     std::vector<uint8_t> indexsection;
     uint32_t numberoffiles{};
     for (const auto& filename : filenames) {
-        std::ifstream infile(filename, std::ios::binary);
+        std::ifstream infile(fs::path(directory) / filename, std::ios::binary);
         std::vector<uint8_t> filedata{ (std::istreambuf_iterator<char>(infile)), std::istreambuf_iterator<char>() };
         infile.close(); 
 
-        size_t index{};
         size_t packedbytes{};
         for (size_t i = 0; i < filedata.size(); i += 0x8000)
         {
@@ -150,7 +149,7 @@ void package_pack(const std::string& directory, const std::string& outfilename)
         write_le32(indexsection, static_cast<uint32_t>(filedata.size()));
         write_le32(indexsection, static_cast<uint32_t>(packedbytes));
         write_le32(indexsection, static_cast<uint32_t>(outfileoffset));
-        write_le32(indexsection, static_cast<uint32_t>(filename.string().size() + 1));
+        write_le32(indexsection, static_cast<uint32_t>(filename_bytes.size() + 1));
         outfileoffset = datasection.size();
         numberoffiles++;
         std::cout << filename << '\n';
