@@ -3,6 +3,7 @@
 x64/
 Debug/
 Release/
+build/
 *.obj
 *.pdb
 *.ilk
