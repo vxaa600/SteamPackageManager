@@ -127,5 +127,9 @@ void package_pack(const std::string& directory, const std::string& outfilename)
 
         size_t index{};
         size_t packedbytes{};
+        for (size_t i = 0; i < filedata.size(); i += 0x8000)
+        {
+            std::vector<uint8_t> chunk(filedata.begin() + i, filedata.begin() + std::min(i + 0x8000, filedata.size()));
+        }
     }
 }
