@@ -25,7 +25,6 @@ void write_le32(std::vector<uint8_t>& buf, uint32_t value) {
     buf.push_back(static_cast<uint8_t>((value >> 24) & 0xFF));
 }
 
-
 std::vector<uint8_t> zlib_decompress(const std::vector<uint8_t>& compressed)
 {
     size_t buffer_size{ 0x8000 };
@@ -52,7 +51,24 @@ std::vector<uint8_t> zlib_decompress(const std::vector<uint8_t>& compressed)
         }
     }
 }
-std::vector<uint8_t> zlib_compress(const std::vector<uint8_t>& input, int level);
+
+/* compress function not mine :( */
+std::vector<uint8_t> zlib_compress(const std::vector<uint8_t>& input, int level = 9)
+{
+    uLongf bound = compressBound(static_cast<uLong>(input.size()));
+    std::vector<uint8_t> compressed(bound);
+    uLongf dest_len = bound;
+    int result = compress2(
+        compressed.data(), &dest_len,
+        input.data(), static_cast<uLong>(input.size()),
+        level
+    );
+    if (result != Z_OK) {
+        throw std::runtime_error("zlib compression failed");
+    }
+    compressed.resize(dest_len);
+    return compressed;
+}
 
 void package_unpack(const std::string& infilename, const std::string& outpath)
 {
