@@ -30,7 +30,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\Downloads\spmpp_multisize.ico">
+    <Image Include="spmpp_multisize.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
