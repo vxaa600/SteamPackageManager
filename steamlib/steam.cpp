@@ -11,13 +11,20 @@
 
 namespace fs = std::filesystem;
 
-/* read little endian */
+/* little endian stuff */
 uint32_t read_le32(const std::vector<uint8_t>& buf, size_t offset) {
     return static_cast<uint32_t>(buf[offset])
         | (static_cast<uint32_t>(buf[offset + 1]) << 8)
         | (static_cast<uint32_t>(buf[offset + 2]) << 16)
         | (static_cast<uint32_t>(buf[offset + 3]) << 24);
 }
+void write_le32(std::vector<uint8_t>& buf, uint32_t value) {
+    buf.push_back(static_cast<uint8_t>(value & 0xFF));
+    buf.push_back(static_cast<uint8_t>((value >> 8) & 0xFF));
+    buf.push_back(static_cast<uint8_t>((value >> 16) & 0xFF));
+    buf.push_back(static_cast<uint8_t>((value >> 24) & 0xFF));
+}
+
 
 std::vector<uint8_t> zlib_decompress(const std::vector<uint8_t>& compressed)
 {
@@ -45,6 +52,7 @@ std::vector<uint8_t> zlib_decompress(const std::vector<uint8_t>& compressed)
         }
     }
 }
+std::vector<uint8_t> zlib_compress(const std::vector<uint8_t>& input, int level);
 
 void package_unpack(const std::string& infilename, const std::string& outpath)
 {
@@ -130,6 +138,11 @@ void package_pack(const std::string& directory, const std::string& outfilename)
         for (size_t i = 0; i < filedata.size(); i += 0x8000)
         {
             std::vector<uint8_t> chunk(filedata.begin() + i, filedata.begin() + std::min(i + 0x8000, filedata.size()));
+            std::vector<uint8_t> packedchunk(zlib_compress(chunk, 9));
+            size_t packedlen{ packedchunk.size() };
+            uint32_t datasection{};
+            datasection += readle_32()
+
         }
     }
 }
