@@ -8,15 +8,15 @@ namespace fs = std::filesystem;
 
 int wmain(int argc, wchar_t* argv[])
 {
-	std::println("steam package manager");
-	std::println("made by vxaa");
+	std::cout << "steam package manager\n";
+	std::cout << "made by vxaa\n";
 	fs::path inputfile;
 	fs::path outputfile;
 
 	bool extract{ false };
-	bool write{ false };
+	bool pack{ false };
 	int c;
-	while ((c = getopt(argc, argv, L"ewi:o:h")) != -1)
+	while ((c = getopt(argc, argv, L"epi:o:h")) != -1)
 	{
 		switch (c)
 		{
@@ -24,8 +24,8 @@ int wmain(int argc, wchar_t* argv[])
 			extract = true;
 			break;
 
-		case 'w':
-			write = true;
+		case 'p':
+			pack = true;
 			break;
 		case 'i':
 			inputfile = optarg;
@@ -36,16 +36,16 @@ int wmain(int argc, wchar_t* argv[])
 			break;
 
 		case 'h':
-			std::cout << "usage: spmpp.exe -e|-w -i file.pkg -o outputdir\n";
+			std::cout << "usage: spmpp.exe -e (extract) | -p (pack) -i file.pkg/inputdir -o outputdir/output.pkg\n";
 			return 0;
 		}
 	}
-	if (extract == write || inputfile.empty() || outputfile.empty())
+	if (extract == pack || inputfile.empty() || outputfile.empty())
 	{
-		std::cout << "usage: spmpp.exe -e|-w -i file.pkg -o outputdir\n";
+		std::cout << "usage: spmpp.exe -e (extract) | -p (pack) -i file.pkg/inputdir -o outputdir/output.pkg\n";
 		return 1;
 	}
-	if (write && outputfile.extension() != ".pkg")
+	if (pack && outputfile.extension() != ".pkg")
 	{
 		std::cout << "incorrect file type!\n";
 		return 1;
@@ -60,7 +60,7 @@ int wmain(int argc, wchar_t* argv[])
 		package_unpack(inputfile.string(), outputfile.string());
 		std::println("extracted {} to {}", inputfile.string(), outputfile.string());
 	}
-	else if (write)
+	else if (pack)
 	{
 		package_pack(inputfile.string(), outputfile.string());
 		std::println("written to {}",outputfile.string());
