@@ -8,7 +8,7 @@ namespace fs = std::filesystem;
 
 int wmain(int argc, wchar_t* argv[])
 {
-	std::println("steam package manager v2");
+	std::println("steam package manager");
 	std::println("made by vxaa");
 	fs::path inputfile;
 	fs::path outputfile;
@@ -58,12 +58,12 @@ int wmain(int argc, wchar_t* argv[])
 	if (extract)
 	{
 		package_unpack(inputfile.string(), outputfile.string());
-		std::println("Extracted {} to {}", inputfile.string(), outputfile.string());
+		std::println("extracted {} to {}", inputfile.string(), outputfile.string());
 	}
 	else if (write)
 	{
 		package_pack(inputfile.string(), outputfile.string());
-		std::println("Written to {}",outputfile.string());
+		std::println("written to {}",outputfile.string());
 	}
 	
 
