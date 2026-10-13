@@ -32,8 +32,8 @@ dependencies are in `vcpkg.conf`
 open SPM++.slnx in vs, select release x64/x86, then build
 
 ### linux
-> [!WARNING] \
-> i havent tested this yet so please leave feedback
+> [!WARNING] 
+> i havent tested this yet so feedback would be REALLY appricieated
 
 **requirements:**
 
