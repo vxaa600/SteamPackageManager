@@ -1,4 +1,4 @@
-# spmpp
+# Steam Package Manager
 a fast steam package manager written in C++ 
 # features
 - extract .pkg files
@@ -29,5 +29,7 @@ requirements:
 dependencies are in `vcpkg.conf`
 
 open SPM++.slnx in vs, select release x64/x86, then build
+
+**CMAKE WIP**
 # license
 see [LICENSE](https://github.com/vxaa600/SteamPackageManager/blob/main/LICENSE)
