@@ -6,13 +6,13 @@ a fast steam package manager written in C++
 - zlib-ng compression
 - x64 and x86 support
 # install
-download the latest [release](https://github.com/vxaa600/spmpp/releases), no install needed
+download the latest [release](https://github.com/vxaa600/SteamPackageManager/releases), no install needed
 # usage
 extract a package \
-`spmpp.exe -e -i input.pkg -o output_folder`
+`SteamPackageManager -e -i input.pkg -o output_folder`
 
 create a package\
-`spmpp.exe -p -i input_folder -o output.pkg`
+`SteamPackageManager -p -i input_folder -o output.pkg`
 
 ### arguments
 `-e` - extract package \
@@ -30,4 +30,4 @@ dependencies are in `vcpkg.conf`
 
 open SPM++.slnx in vs, select release x64/x86, then build
 # license
-see [LICENSE](https://github.com/vxaa600/spmpp/blob/main/LICENSE)
+see [LICENSE](https://github.com/vxaa600/SteamPackageManager/blob/main/LICENSE)

@@ -11,7 +11,7 @@ int wmain(int argc, wchar_t* argv[])
 int main(int argc, char* argv[])
 #endif
 {
-	std::cout << "steam package manager\n";
+	std::cout << "Steam Package Manager v0.2\n";
 	std::cout << "made by vxaa\n";
 	fs::path inputfile;
 	fs::path outputfile;
