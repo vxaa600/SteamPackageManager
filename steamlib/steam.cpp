@@ -159,7 +159,7 @@ void package_pack(const std::string& directory, const std::string& outfilename)
             datasection.insert(datasection.end(), packedchunk.begin(), packedchunk.end());
             packedbytes += packedlen;
         }
-        std::string filename_bytes = filename.string();
+        std::string filename_bytes = filename.generic_string();
         indexsection.insert(indexsection.end(), filename_bytes.begin(), filename_bytes.end());
         indexsection.push_back(0);
         write_le32(indexsection, static_cast<uint32_t>(filedata.size()));

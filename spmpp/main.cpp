@@ -5,7 +5,11 @@
 #include <steam.h>
 namespace fs = std::filesystem;
 
+#ifdef _WIN32
 int wmain(int argc, wchar_t* argv[])
+#else
+int main(int argc, char* argv[])
+#endif
 {
 	std::cout << "steam package manager\n";
 	std::cout << "made by vxaa\n";
@@ -18,7 +22,7 @@ int wmain(int argc, wchar_t* argv[])
     {
         std::wstring arg{ argv[i] };
 
-        if (arg.size() != 2 || arg[0] != L'-')
+        if (arg.size() != 2 || arg[0] != '-')
         {
             std::println("invalid argument");
             return 1;
@@ -26,15 +30,15 @@ int wmain(int argc, wchar_t* argv[])
 
         switch (arg[1])
         {
-        case L'e':
+        case 'e':
             extract = true;
             break;
 
-        case L'p':
+        case 'p':
             pack = true;
             break;
 
-        case L'i':
+        case 'i':
             if (i + 1 >= argc)
             {
                 std::println("missing input");
@@ -43,7 +47,7 @@ int wmain(int argc, wchar_t* argv[])
             inputfile = argv[++i];
             break;
 
-        case L'o':
+        case 'o':
             if (i + 1 >= argc)
             {
                 std::println("missing output");
@@ -52,8 +56,8 @@ int wmain(int argc, wchar_t* argv[])
             outputfile = argv[++i];
             break;
 
-        case L'h':
-            std::println("usage: spmpp.exe -e | -p -i input -o output");
+        case 'h':
+            std::println("usage: SteamPackageManager -e | -p -i input -o output");
             return 0;
 
         default:
@@ -63,7 +67,7 @@ int wmain(int argc, wchar_t* argv[])
     }
 	if (extract == pack || inputfile.empty() || outputfile.empty())
 	{
-		std::cout << "usage: spmpp.exe -e | -p -i input -o output\n";
+		std::cout << "usage: SteamPackageManager -e | -p -i input -o output\n";
 		return 1;
 	}
 	if (pack && outputfile.extension() != ".pkg")
