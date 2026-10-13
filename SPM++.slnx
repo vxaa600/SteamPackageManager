@@ -3,6 +3,6 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="spmpp/spmpp.vcxproj" Id="8a1e30e7-a941-48a5-84a3-3d8d1771200f" />
   <Project Path="steamlib/steamlib.vcxproj" Id="147f45b6-dfcd-4226-ae43-5581143f5353" />
+  <Project Path="SteamPackageManager/SteamPackageManager.vcxproj" Id="8a1e30e7-a941-48a5-84a3-3d8d1771200f" />
 </Solution>
