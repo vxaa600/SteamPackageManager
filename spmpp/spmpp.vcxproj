@@ -24,7 +24,7 @@
     <ProjectGuid>{8a1e30e7-a941-48a5-84a3-3d8d1771200f}</ProjectGuid>
     <RootNamespace>spmpp</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>spmpp</ProjectName>
+    <ProjectName>SteamPackageManager</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
