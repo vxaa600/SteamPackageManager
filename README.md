@@ -38,7 +38,7 @@ open SPM++.slnx in vs, select release x64/x86, then build
 **requirements:**
 
 - linux 
-- cmakke 3.20+
+- cmake 3.20+
 - C++23 compiler
 - pkg-config
 - zlib-ng 
